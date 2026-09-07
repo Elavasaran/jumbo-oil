@@ -1,0 +1,16 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-navy: #0F172A;
+  --color-brand-gold: #D97706;
+  --color-brand-gold-light: #F59E0B;
+  --color-brand-cream: #FFFBEB;
+  --color-brand-green: #15803D;
+  --color-brand-text: #1E293B;
+}
+
+@layer base {
+  body {
+    @apply text-brand-text bg-white antialiased;
+  }
+}

@@ -20,95 +20,102 @@ import goodnessBgImg from '../../assets/goodness_oil_bg.jpg';
 const Home = () => {
   return (
     <div className="flex flex-col min-h-screen bg-amber-50/20 font-sans text-slate-800">
-      {/* ==================================================
-          1. HERO SECTION (100% FULL-WIDTH BACKGROUND BANNER)
-         ================================================== */}
-      <section className="hero relative w-full pt-20 md:pt-24 pb-8 md:pb-12 overflow-hidden bg-[#FAF5EC] border-b border-amber-900/10 min-h-[500px] md:min-h-[540px] lg:min-h-[580px] flex items-center">
+      <section className="relative w-full pt-20 pb-16 md:pt-32 md:pb-24 min-h-screen flex items-center overflow-hidden bg-[#FDF9F1]">
         
-        {/* Full-Bleed 100% Edge-to-Edge Single Background Layer */}
-        <div className="absolute inset-0 w-full h-full z-0 overflow-hidden">
+        {/* Scaled Background Image */}
+        <div className="absolute inset-0 z-0 animate-zoom-in">
           <img 
             src={jumboOilsImg} 
             alt="Jumbo Trades Coconut, Sunflower and Gingelly Oils" 
-            className="w-full h-full object-contain md:object-contain object-right block"
+            className="w-full h-full object-cover object-right"
             loading="eager"
           />
-          {/* Subtle Left Fade Overlay ONLY for text contrast (Image remains visible underneath!) */}
-          <div className="absolute inset-0 bg-gradient-to-r from-[#FAF5EC]/95 via-[#FAF5EC]/70 via-35% to-transparent w-full md:w-[60%] lg:w-[48%] h-full pointer-events-none"></div>
+          {/* Seamless gradient overlay to mask baked text without covering the coconut oil bottle */}
+          <div className="absolute inset-0 bg-gradient-to-r from-[#FDF9F1] from-25% via-[#FDF9F1]/98 via-40% to-transparent w-full"></div>
         </div>
 
-        {/* Hero Text Overlay Container sitting ON TOP of the full-width background image */}
-        <div className="relative z-10 container mx-auto px-4 md:px-6 flex items-center w-full">
-          <div className="max-w-md lg:max-w-lg space-y-3.5 md:space-y-4 text-left">
-            {/* Tagline */}
-            <div className="inline-block text-amber-800 font-extrabold text-xs uppercase tracking-widest">
-              PREMIUM EDIBLE OILS
+        {/* Content Container */}
+        <div className="container mx-auto px-4 md:px-8 xl:px-12 relative z-10 w-full flex">
+          
+          {/* Left Text Column */}
+          <div className="w-full md:w-1/2 max-w-xl space-y-6 text-left shrink-0">
+            
+            {/* Tagline Pill */}
+            <div className="inline-flex items-center mt-4 animate-fade-in-up">
+              <span className="bg-[#F8E7CD] text-[#A67C00] font-black text-[11px] md:text-xs uppercase tracking-[0.15em] px-4 py-1.5 rounded-full">
+                PREMIUM EDIBLE OILS
+              </span>
             </div>
 
             {/* Title */}
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 leading-[1.1] tracking-tight">
+            <h1 
+              className="text-5xl sm:text-6xl lg:text-7xl font-black text-[#1A2E46] leading-[1.1] tracking-tight animate-fade-in-up delay-100"
+              style={{ fontFamily: '"Times New Roman", Times, serif' }}
+            >
               Pure Taste.<br />
-              <span className="text-slate-900">Trusted Quality.</span>
+              Trusted Quality.
             </h1>
 
             {/* Description */}
-            <p className="text-sm sm:text-base text-slate-700 max-w-md leading-relaxed font-medium">
+            <p className="text-base sm:text-lg text-[#324559] max-w-lg leading-relaxed font-semibold animate-fade-in-up delay-200">
               Premium edible oils crafted with care for every kitchen. Natural. Healthy. Traditional.
             </p>
 
             {/* Action Buttons */}
-            <div className="flex flex-wrap items-center gap-3 pt-1">
+            <div className="flex flex-wrap items-center gap-4 pt-2 animate-fade-in-up delay-300">
               <Link 
                 to="/shop" 
-                className="px-7 py-3 bg-amber-600 hover:bg-amber-700 text-white rounded-full font-extrabold text-sm shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300 flex items-center gap-2"
+                className="px-8 py-3.5 bg-[#EA660C] hover:bg-[#c95305] text-white rounded-full font-bold text-sm shadow-[0_8px_20px_rgba(234,102,12,0.3)] hover:-translate-y-0.5 transition-all duration-300 flex items-center gap-2"
               >
                 <span>Shop Now</span>
                 <ArrowRight className="w-4 h-4" />
               </Link>
               <Link 
                 to="/product-information" 
-                className="px-7 py-3 bg-white/90 text-amber-900 border-2 border-amber-800/40 hover:border-amber-800 rounded-full font-extrabold text-sm hover:bg-amber-50 transition-all duration-300 shadow-sm"
+                className="px-8 py-3.5 bg-white text-[#1A2E46] border border-[#1A2E46]/30 hover:border-[#1A2E46] rounded-full font-bold text-sm shadow-sm hover:bg-slate-50 transition-all duration-300"
               >
                 Explore Products
               </Link>
             </div>
 
             {/* Trust Features Strip */}
-            <div className="pt-4 border-t border-amber-900/10 grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-md">
-              <div className="flex flex-col items-start text-left group">
-                <div className="w-9 h-9 rounded-full bg-amber-100/90 border border-amber-300/80 flex items-center justify-center text-amber-800 mb-1 shadow-sm group-hover:scale-110 transition-transform">
-                  <Leaf className="w-4 h-4" />
+            <div className="pt-8 grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-xl animate-fade-in-up delay-400">
+              
+              <div className="flex flex-col items-start lg:items-center text-left lg:text-center group">
+                <div className="w-12 h-12 rounded-full bg-white border border-[#F0DFA8] flex items-center justify-center text-[#B08920] mb-3 shadow-[0_4px_10px_rgba(0,0,0,0.03)]">
+                  <Leaf className="w-5 h-5" />
                 </div>
-                <span className="font-extrabold text-xs text-slate-900 leading-tight">100% Natural</span>
-                <span className="text-[10px] text-slate-600 font-medium">Pure seeds & copra</span>
+                <span className="font-extrabold text-xs text-[#1A2E46]">100% Natural</span>
+                <span className="text-[10px] text-[#55677A] font-semibold mt-1">Pure seeds & copra</span>
               </div>
 
-              <div className="flex flex-col items-start text-left group">
-                <div className="w-9 h-9 rounded-full bg-amber-100/90 border border-amber-300/80 flex items-center justify-center text-amber-800 mb-1 shadow-sm group-hover:scale-110 transition-transform">
-                  <ShieldCheck className="w-4 h-4" />
+              <div className="flex flex-col items-start lg:items-center text-left lg:text-center group">
+                <div className="w-12 h-12 rounded-full bg-white border border-[#F0DFA8] flex items-center justify-center text-[#B08920] mb-3 shadow-[0_4px_10px_rgba(0,0,0,0.03)]">
+                  <ShieldCheck className="w-5 h-5" />
                 </div>
-                <span className="font-extrabold text-xs text-slate-900 leading-tight">Hygienic Processing</span>
-                <span className="text-[10px] text-slate-600 font-medium">FSSAI certified</span>
+                <span className="font-extrabold text-xs text-[#1A2E46]">Hygienic</span>
+                <span className="text-[10px] text-[#55677A] font-semibold mt-1">FSSAI certified</span>
               </div>
 
-              <div className="flex flex-col items-start text-left group">
-                <div className="w-9 h-9 rounded-full bg-amber-100/90 border border-amber-300/80 flex items-center justify-center text-amber-800 mb-1 shadow-sm group-hover:scale-110 transition-transform">
-                  <PackageCheck className="w-4 h-4" />
+              <div className="flex flex-col items-start lg:items-center text-left lg:text-center group">
+                <div className="w-12 h-12 rounded-full bg-white border border-[#F0DFA8] flex items-center justify-center text-[#B08920] mb-3 shadow-[0_4px_10px_rgba(0,0,0,0.03)]">
+                  <PackageCheck className="w-5 h-5" />
                 </div>
-                <span className="font-extrabold text-xs text-slate-900 leading-tight">Multiple Pack Sizes</span>
-                <span className="text-[10px] text-slate-600 font-medium">500ml to 15L</span>
+                <span className="font-extrabold text-xs text-[#1A2E46]">Multiple Sizes</span>
+                <span className="text-[10px] text-[#55677A] font-semibold mt-1">500ml to 15L</span>
               </div>
 
-              <div className="flex flex-col items-start text-left group">
-                <div className="w-9 h-9 rounded-full bg-amber-100/90 border border-amber-300/80 flex items-center justify-center text-amber-800 mb-1 shadow-sm group-hover:scale-110 transition-transform">
-                  <Truck className="w-4 h-4" />
+              <div className="flex flex-col items-start lg:items-center text-left lg:text-center group">
+                <div className="w-12 h-12 rounded-full bg-white border border-[#F0DFA8] flex items-center justify-center text-[#B08920] mb-3 shadow-[0_4px_10px_rgba(0,0,0,0.03)]">
+                  <Truck className="w-5 h-5" />
                 </div>
-                <span className="font-extrabold text-xs text-slate-900 leading-tight">All India Delivery</span>
-                <span className="text-[10px] text-slate-600 font-medium">Safe shipping</span>
+                <span className="font-extrabold text-xs text-[#1A2E46]">Fast Delivery</span>
+                <span className="text-[10px] text-[#55677A] font-semibold mt-1">Across India</span>
               </div>
+
             </div>
-
           </div>
+          
         </div>
       </section>
 

@@ -24,22 +24,24 @@ const ProductCard = ({ product }) => {
   };
 
   return (
-    <div className="group bg-white rounded-3xl border border-amber-900/10 overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 flex flex-col h-full relative">
+    <div className="group bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1 hover:border-slate-300 transition-all duration-300 flex flex-col h-full relative">
       {/* Product Image Container */}
       <Link 
         to={`/product-information/${product.slug || product.id}`}
-        className="relative aspect-[4/3] bg-gradient-to-b from-amber-50/60 via-amber-100/30 to-white overflow-hidden flex items-center justify-center p-4 block group"
+        className="relative pt-[100%] bg-slate-50 overflow-hidden block group"
       >
-        <img 
-          src={product.image} 
-          alt={`Jumbo Trades ${product.name}`}
-          className="w-full h-full object-contain group-hover:scale-108 transition-transform duration-700 drop-shadow-md"
-          loading="lazy"
-        />
+        <div className="absolute inset-0 p-6 flex flex-col items-center justify-center">
+          <img 
+            src={product.image} 
+            alt={`Jumbo Trades ${product.name}`}
+            className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500 drop-shadow-lg"
+            loading="lazy"
+          />
+        </div>
         
         {/* Rating Badge */}
-        <div className="absolute top-3 left-3 bg-white/95 backdrop-blur-md px-3 py-1 rounded-full text-xs font-extrabold text-slate-800 shadow-sm flex items-center gap-1 border border-amber-200/60">
-          <Star className="w-3.5 h-3.5 fill-amber-500 text-amber-500" />
+        <div className="absolute top-4 left-4 bg-white/95 backdrop-blur-md px-2.5 py-1 rounded-lg text-xs font-bold text-slate-700 shadow-sm flex items-center gap-1 border border-slate-200/80">
+          <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
           <span>{product.rating || '4.9'}</span>
         </div>
 

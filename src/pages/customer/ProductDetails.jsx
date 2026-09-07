@@ -45,30 +45,30 @@ const ProductDetails = () => {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
             {/* Gallery Left */}
             <div className="lg:col-span-6 space-y-4">
-              <div className="aspect-[4/3] rounded-2xl overflow-hidden bg-gradient-to-b from-amber-50 to-amber-100/40 p-4 border border-amber-900/10 shadow-sm relative">
+              <div className="aspect-square w-full rounded-3xl overflow-hidden bg-slate-50 p-6 md:p-12 border border-slate-200/80 shadow-sm relative flex items-center justify-center">
                 <img 
                   src={gallery[activeImageIndex]} 
                   alt={product.name}
-                  className="w-full h-full object-cover rounded-xl"
+                  className="w-full h-full object-contain cursor-zoom-in hover:scale-105 transition-transform duration-500 drop-shadow-xl"
                 />
-                <span className="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold text-slate-800 shadow-sm border border-white flex items-center gap-1">
-                  <Star className="w-3.5 h-3.5 fill-amber-500 text-amber-500" />
+                <span className="absolute top-6 left-6 bg-white/95 backdrop-blur-md px-3 py-1.5 rounded-lg text-xs font-bold text-slate-800 shadow-[0_2px_10px_-3px_rgba(6,81,237,0.1)] border border-slate-100 flex items-center gap-1.5">
+                  <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
                   <span>{product.rating} ({product.reviewCount} reviews)</span>
                 </span>
               </div>
 
               {/* Thumbnails */}
-              <div className="flex gap-3">
+              <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
                 {gallery.map((img, idx) => (
                   <button
                     key={idx}
                     type="button"
                     onClick={() => setActiveImageIndex(idx)}
-                    className={`w-20 h-20 rounded-xl overflow-hidden border-2 transition-all p-1 bg-amber-50 ${
-                      activeImageIndex === idx ? 'border-amber-600 shadow-md scale-105' : 'border-slate-200 hover:border-slate-300'
+                    className={`w-24 h-24 shrink-0 rounded-2xl overflow-hidden border-2 transition-all p-2 bg-white ${
+                      activeImageIndex === idx ? 'border-brand-navy shadow-md ring-2 ring-brand-navy/10' : 'border-slate-200 hover:border-slate-300'
                     }`}
                   >
-                    <img src={img} alt="Thumbnail" className="w-full h-full object-cover rounded-lg" />
+                    <img src={img} alt="Thumbnail" className="w-full h-full object-contain mix-blend-multiply" />
                   </button>
                 ))}
               </div>
@@ -113,35 +113,35 @@ const ProductDetails = () => {
               </div>
 
               {/* Pricing & Add to Cart */}
-              <div className="p-5 bg-amber-50/60 rounded-2xl border border-amber-900/10 space-y-4">
+              <div className="p-6 md:p-8 bg-slate-50 rounded-3xl border border-slate-200 space-y-6">
                 <div className="flex items-baseline justify-between">
                   <div>
-                    <span className="text-xs text-slate-500 block">Total Price</span>
-                    <span className="text-3xl font-black text-slate-900">₹{selectedVariant.price * quantity}</span>
-                    <span className="text-xs text-slate-500 ml-2">(₹{selectedVariant.price} / {selectedVariant.size})</span>
+                    <span className="text-xs font-bold text-slate-500 uppercase tracking-widest block mb-1">Total Price</span>
+                    <span className="text-4xl font-black text-brand-navy">₹{selectedVariant.price * quantity}</span>
+                    <span className="text-sm font-semibold text-slate-500 ml-3">(₹{selectedVariant.price} / {selectedVariant.size})</span>
                   </div>
-                  <span className="bg-emerald-100 text-emerald-800 text-xs font-bold px-3 py-1 rounded-full border border-emerald-200">
+                  <span className="bg-emerald-50 text-emerald-700 text-xs font-black uppercase tracking-wider px-3 py-1.5 rounded-lg border border-emerald-200/60 shadow-sm">
                     {selectedVariant.status}
                   </span>
                 </div>
 
-                <div className="flex flex-wrap gap-4 pt-2">
+                <div className="flex flex-col sm:flex-row gap-4 pt-2">
                   {/* Quantity */}
-                  <div className="flex items-center border border-slate-300 rounded-xl bg-white overflow-hidden shadow-sm">
+                  <div className="flex items-center border border-slate-200 rounded-xl bg-white overflow-hidden shadow-sm h-14 shrink-0 sm:w-32">
                     <button
                       type="button"
                       onClick={() => setQuantity(prev => Math.max(1, prev - 1))}
-                      className="px-3.5 py-3 text-slate-700 hover:bg-slate-100 transition-colors"
+                      className="px-4 h-full text-slate-600 hover:bg-slate-50 hover:text-brand-navy transition-colors font-bold"
                     >
                       <Minus className="w-4 h-4" />
                     </button>
-                    <span className="w-10 text-center font-black text-sm text-slate-900">
+                    <span className="flex-1 text-center font-black text-base text-slate-900 border-x border-slate-100 flex items-center justify-center h-full">
                       {quantity}
                     </span>
                     <button
                       type="button"
                       onClick={() => setQuantity(prev => prev + 1)}
-                      className="px-3.5 py-3 text-slate-700 hover:bg-slate-100 transition-colors"
+                      className="px-4 h-full text-slate-600 hover:bg-slate-50 hover:text-brand-navy transition-colors font-bold"
                     >
                       <Plus className="w-4 h-4" />
                     </button>
@@ -151,7 +151,7 @@ const ProductDetails = () => {
                   <button
                     type="button"
                     onClick={handleAddToCart}
-                    className="flex-1 bg-brand-navy hover:bg-amber-800 text-white px-6 py-3.5 rounded-xl font-black text-sm shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2"
+                    className="h-14 flex-1 bg-brand-navy hover:bg-amber-800 text-white rounded-xl font-black text-sm shadow-[0_8px_30px_rgb(0,0,0,0.12)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.2)] transition-all flex items-center justify-center gap-2"
                   >
                     <ShoppingCart className="w-5 h-5" />
                     <span>Add to Cart</span>

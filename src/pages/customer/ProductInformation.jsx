@@ -2,13 +2,25 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Leaf, ShieldCheck, Award, Sparkles, CheckCircle2, Droplet, Info } from 'lucide-react';
 import { products } from '../../data/products';
+import productInfoHeroImg from '../../assets/product_info_hero.png';
 
 const ProductInformation = () => {
   return (
     <div className="pt-24 pb-20 bg-[#FDFBF7] min-h-screen font-sans">
       {/* Header Banner */}
-      <section className="relative py-20 bg-[#1A2E46] text-white overflow-hidden mb-16 rounded-3xl mx-4 md:mx-6 shadow-lg border border-amber-900/20">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#1A2E46] to-amber-950/40 pointer-events-none"></div>
+      <section className="relative py-24 md:py-32 bg-[#1A2E46] text-white overflow-hidden mb-16 rounded-3xl mx-4 md:mx-6 shadow-xl border border-amber-900/20 group">
+        
+        {/* Full-width Background Image */}
+        <div className="absolute inset-0 z-0">
+          <img 
+            src={productInfoHeroImg} 
+            alt="Natural Ingredients and Premium Oils" 
+            className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-[2000ms]"
+          />
+        </div>
+        
+        {/* Dark Navy / Black Transparent Overlay for Text Readability */}
+        <div className="absolute inset-0 z-0 bg-gradient-to-t from-[#0A192F]/95 via-[#0A192F]/70 to-[#0A192F]/40 pointer-events-none"></div>
         <div className="container mx-auto px-6 md:px-12 relative z-10 text-center max-w-4xl">
           <span className="inline-flex items-center justify-center gap-2 px-4 py-1.5 bg-amber-500/10 text-amber-300 font-bold text-xs uppercase tracking-[0.2em] rounded-full border border-amber-500/20 mb-6 backdrop-blur-md">
             <Info className="w-3.5 h-3.5" />

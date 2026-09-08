@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { 
   Search, 
   SlidersHorizontal, 
@@ -13,13 +13,30 @@ import {
 import { products } from '../../data/products';
 import ProductCard from '../../components/customer/ProductCard';
 
-import goodnessBgImg from '../../assets/goodness_oil_bg.jpg';
+import goodnessBgImg from '../../assets/premium_cooking.jpg';
 import jumboOilsImg from '../../assets/jumbo_trades_oils.jpg';
+import coconutOilImg from '../../assets/coconut_oil.jpg';
+import groundnutOilImg from '../../assets/groundnut_oil.jpg';
+import gingellyOilImg from '../../assets/gingelly_oil.jpg';
 
 const Shop = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [sortBy, setSortBy] = useState('featured');
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  const heroSlides = useMemo(() => [
+    { id: 0, image: coconutOilImg, label: 'Coconut Oil' },
+    { id: 1, image: groundnutOilImg, label: 'Groundnut Oil' },
+    { id: 2, image: gingellyOilImg, label: 'Gingelly Oil' },
+  ], []);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
+    }, 4500); // 4-5 seconds
+    return () => clearInterval(timer);
+  }, [heroSlides.length]);
 
   const categories = ['All', 'Coconut Oil', 'Groundnut Oil', 'Gingelly Oil'];
 
@@ -52,19 +69,26 @@ const Shop = () => {
       
       {/* 1. SHOP HEADER / BANNER */}
       <section className="relative py-16 md:py-24 bg-[#1A2E46] text-white overflow-hidden mb-12 rounded-3xl mx-4 md:mx-6 shadow-xl border border-amber-900/20">
-        {/* Background Oil Visual Overlay */}
-        <div className="absolute inset-0 opacity-25 mix-blend-luminosity pointer-events-none">
-          <img 
-            src={jumboOilsImg} 
-            alt="Jumbo Trades Premium Oils Visual" 
-            className="w-full h-full object-cover object-center"
-          />
-        </div>
+        {/* Automatic Slider Backgrounds */}
+        {heroSlides.map((slide, index) => (
+          <div 
+            key={slide.id}
+            className={`absolute inset-0 transition-opacity duration-1000 ease-in-out pointer-events-none ${
+              index === currentSlide ? 'opacity-100' : 'opacity-0'
+            }`}
+          >
+            <img 
+              src={slide.image} 
+              alt={slide.label} 
+              className="w-full h-full object-cover object-center"
+            />
+          </div>
+        ))}
         
-        {/* Soft Radial Gradient */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#1A2E46] via-[#1A2E46]/95 to-[#0F172A]/90 pointer-events-none"></div>
+        {/* Subtle Dark Gradient Overlay */}
+        <div className="absolute inset-0 bg-[#1A2E46]/40 bg-gradient-to-t from-[#1A2E46]/90 via-[#1A2E46]/30 to-transparent pointer-events-none"></div>
 
-        <div className="container mx-auto px-4 md:px-8 relative z-10 flex flex-col items-center text-center max-w-3xl space-y-4">
+        <div className="container mx-auto px-4 md:px-8 relative z-10 flex flex-col items-center text-center max-w-3xl space-y-4 pb-6">
           <span className="inline-flex items-center gap-1.5 px-4 py-1.5 bg-[#F8E7CD]/20 text-[#F8E7CD] rounded-full font-black text-xs uppercase tracking-[0.2em] border border-[#F8E7CD]/30 shadow-sm backdrop-blur-md">
             <Sparkles className="w-3.5 h-3.5 text-amber-400" />
             Pure & Natural Selection
@@ -80,6 +104,22 @@ const Shop = () => {
           <p className="text-slate-200 text-sm md:text-base font-semibold max-w-xl mx-auto leading-relaxed">
             Natural oils crafted for a healthier tomorrow. Select your preferred size and enjoy doorstep delivery across India.
           </p>
+        </div>
+
+        {/* Slider Indicators */}
+        <div className="absolute bottom-6 left-0 right-0 flex justify-center items-center gap-3 z-20">
+          {heroSlides.map((slide, index) => (
+            <button
+              key={slide.id}
+              onClick={() => setCurrentSlide(index)}
+              className={`transition-all duration-300 rounded-full shadow-md ${
+                index === currentSlide 
+                  ? 'bg-amber-400 w-8 h-2.5' 
+                  : 'bg-white/60 hover:bg-white w-2.5 h-2.5'
+              }`}
+              aria-label={`Go to slide ${index + 1}: ${slide.label}`}
+            />
+          ))}
         </div>
       </section>
 

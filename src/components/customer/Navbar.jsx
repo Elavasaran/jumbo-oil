@@ -52,7 +52,7 @@ const Navbar = () => {
           <img 
             src={logoImg} 
             alt="Jumbo Trades Logo" 
-            className="h-16 md:h-20 w-auto object-contain mix-blend-multiply group-hover:scale-105 transition-transform" 
+            className="h-16 md:h-20 w-auto object-contain rounded-full group-hover:scale-105 transition-transform" 
             onError={(e) => {
               e.target.style.display = 'none';
               document.getElementById('fallback-logo').style.display = 'flex';

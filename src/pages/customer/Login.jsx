@@ -7,15 +7,21 @@ import { useToast } from '../../context/ToastContext';
 const Login = () => {
   const [email, setEmail] = useState('rahul.sharma@example.com');
   const [password, setPassword] = useState('password123');
-  const { loginCustomer } = useAuth();
+  const { loginCustomer, loginAdmin } = useAuth();
   const { showToast } = useToast();
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    loginCustomer(email, password);
-    showToast("Logged in successfully!", "success");
-    navigate('/account');
+    if (email.toLowerCase().includes('admin')) {
+      loginAdmin(email, password);
+      showToast("Logged in as Admin!", "success");
+      navigate('/admin');
+    } else {
+      loginCustomer(email, password);
+      showToast("Logged in successfully!", "success");
+      navigate('/account');
+    }
   };
 
   return (
@@ -105,6 +111,10 @@ const Login = () => {
               <Link to="/register" className="text-amber-700 font-bold hover:underline">
                 Create Account
               </Link>
+            </div>
+            
+            <div className="mt-4 p-3 bg-blue-50/50 rounded-xl border border-blue-100 text-[11px] text-blue-800 text-center">
+              <strong>Admin Access:</strong> Enter <strong>admin@jumbotrades.demo</strong> to be automatically redirected to the Admin Dashboard.
             </div>
           </div>
         </div>

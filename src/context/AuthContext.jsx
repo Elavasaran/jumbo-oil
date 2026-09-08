@@ -42,6 +42,8 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     setUser(null);
     setIsAdmin(false);
+    localStorage.removeItem('jumbo-auth-user');
+    localStorage.removeItem('jumbo-auth-admin');
   };
 
   return (

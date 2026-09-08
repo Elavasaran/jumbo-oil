@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import CustomerLayout from './layouts/CustomerLayout';
 import AdminLayout from './layouts/AdminLayout';
 import ScrollToTop from './components/ScrollToTop';
+import { MockDataProvider } from './context/MockDataContext';
 
 import Home from './pages/customer/Home';
 import Shop from './pages/customer/Shop';
@@ -55,7 +56,14 @@ function App() {
         <Route path="/admin-login" element={<AdminLogin />} />
 
         {/* Admin Routes */}
-        <Route path="/admin" element={<AdminLayout />}>
+        <Route 
+          path="/admin" 
+          element={
+            <MockDataProvider>
+              <AdminLayout />
+            </MockDataProvider>
+          }
+        >
           <Route index element={<AdminDashboard />} />
           <Route path="products/*" element={<AdminProducts />} />
           <Route path="variants" element={<AdminVariants />} />

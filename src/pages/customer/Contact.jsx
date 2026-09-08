@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { MapPin, Phone, Mail, MessageSquare, Send, ArrowRight, ExternalLink } from 'lucide-react';
 import { siteConfig } from '../../config/siteConfig';
 import { useToast } from '../../context/ToastContext';
+import contactHeroBg from '../../assets/images/contact_hero_bg.png';
 
 const Contact = () => {
   const { showToast } = useToast();
@@ -35,19 +36,22 @@ const Contact = () => {
   return (
     <div className="pt-24 pb-20 bg-[#FDFBF7] min-h-screen font-sans text-slate-800">
       {/* 1. CONTACT HERO */}
-      <section className="relative py-20 bg-[#1A2E46] text-white overflow-hidden mb-16 rounded-3xl mx-4 md:mx-6 shadow-lg border border-amber-900/20">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#1A2E46] to-amber-950/40 pointer-events-none"></div>
+      <section 
+        className="relative py-24 md:py-32 text-white overflow-hidden mb-16 rounded-3xl mx-4 md:mx-6 shadow-xl border border-amber-900/20 bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: `url(${contactHeroBg})` }}
+      >
+        <div className="absolute inset-0 bg-black/20 pointer-events-none"></div>
         <div className="container mx-auto px-6 md:px-12 relative z-10 text-center max-w-3xl">
-          <span className="inline-flex items-center justify-center gap-2 px-4 py-1.5 bg-amber-500/10 text-amber-300 font-bold text-xs uppercase tracking-[0.2em] rounded-full border border-amber-500/20 mb-6 backdrop-blur-md">
+          <span className="inline-flex items-center justify-center gap-2 px-4 py-1.5 bg-black/30 text-amber-300 font-bold text-xs uppercase tracking-[0.2em] rounded-full border border-amber-500/30 mb-6 backdrop-blur-md">
             We are here to help
           </span>
           <h1 
-            className="text-4xl md:text-5xl lg:text-6xl font-black mb-6 tracking-tight text-[#FDFBF7] drop-shadow-sm"
+            className="text-4xl md:text-5xl lg:text-7xl font-black mb-6 tracking-tight text-[#FDFBF7] drop-shadow-lg"
             style={{ fontFamily: '"Times New Roman", Times, serif' }}
           >
             Let's Connect
           </h1>
-          <p className="text-amber-50/80 text-base md:text-lg font-medium leading-relaxed max-w-2xl mx-auto">
+          <p className="text-[#FDFBF7] text-base md:text-xl font-medium leading-relaxed max-w-2xl mx-auto drop-shadow-md">
             Have questions about Jumbo Trades edible oils, bulk orders, or dealership inquiries? Send us a message or reach out directly.
           </p>
         </div>

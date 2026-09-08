@@ -93,7 +93,7 @@ const Shop = () => {
         <div className="absolute inset-0 bg-gradient-to-r from-[#0F172A]/90 via-[#1A2E46]/60 to-transparent pointer-events-none w-full md:w-[60%] z-10"></div>
         <div className="absolute inset-0 bg-black/20 pointer-events-none md:hidden z-10"></div>
 
-        <div className="container mx-auto px-10 md:px-14 relative z-10 flex flex-col items-start text-left max-w-2xl space-y-4 pb-6">
+        <div className="w-full px-8 md:px-16 lg:px-20 relative z-10 flex flex-col items-start text-left max-w-2xl space-y-4 pb-6">
           <span className="inline-flex items-center gap-1.5 px-4 py-1.5 bg-[#F8E7CD]/20 text-[#F8E7CD] rounded-full font-black text-xs uppercase tracking-[0.2em] border border-[#F8E7CD]/30 shadow-sm backdrop-blur-md">
             <Sparkles className="w-3.5 h-3.5 text-amber-400" />
             Pure & Natural Selection

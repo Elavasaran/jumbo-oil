@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import CustomerLayout from './layouts/CustomerLayout';
 import AdminLayout from './layouts/AdminLayout';
+import ScrollToTop from './components/ScrollToTop';
 
 import Home from './pages/customer/Home';
 import Shop from './pages/customer/Shop';
@@ -33,6 +34,7 @@ import NotFound from './pages/NotFound';
 function App() {
   return (
     <Router>
+      <ScrollToTop />
       <Routes>
         {/* Customer Routes */}
         <Route path="/" element={<CustomerLayout />}>

@@ -8,16 +8,19 @@ import {
   Award, 
   PackageCheck,
   Sparkles,
-  Droplet
+  Droplet,
+  ChevronLeft,
+  ChevronRight
 } from 'lucide-react';
 import { products } from '../../data/products';
 import ProductCard from '../../components/customer/ProductCard';
 
 import goodnessBgImg from '../../assets/premium_cooking.jpg';
 import jumboOilsImg from '../../assets/jumbo_trades_oils.jpg';
-import coconutOilImg from '../../assets/coconut_oil.jpg';
-import groundnutOilImg from '../../assets/groundnut_oil.jpg';
-import gingellyOilImg from '../../assets/gingelly_oil.jpg';
+import shopHeroBannerImg from '../../assets/shop_hero_banner.png';
+import coconutOilWide from '../../assets/hero_wide_3.png';
+import groundnutOilWide from '../../assets/hero_wide_1.png';
+import gingellyOilWide from '../../assets/hero_wide_2.png';
 
 const Shop = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -26,9 +29,9 @@ const Shop = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
 
   const heroSlides = useMemo(() => [
-    { id: 0, image: coconutOilImg, label: 'Coconut Oil' },
-    { id: 1, image: groundnutOilImg, label: 'Groundnut Oil' },
-    { id: 2, image: gingellyOilImg, label: 'Gingelly Oil' },
+    { id: 0, image: coconutOilWide, label: 'Coconut Oil' },
+    { id: 1, image: groundnutOilWide, label: 'Groundnut Oil' },
+    { id: 2, image: gingellyOilWide, label: 'Gingelly Oil' },
   ], []);
 
   useEffect(() => {
@@ -68,7 +71,8 @@ const Shop = () => {
     <div className="pt-24 pb-20 bg-amber-50/20 min-h-screen font-sans text-slate-800">
       
       {/* 1. SHOP HEADER / BANNER */}
-      <section className="relative py-16 md:py-24 bg-[#1A2E46] text-white overflow-hidden mb-12 rounded-3xl mx-4 md:mx-6 shadow-xl border border-amber-900/20">
+      <section className="relative py-16 md:py-24 bg-[#1A2E46] text-white overflow-hidden mb-12 rounded-3xl mx-4 md:mx-6 shadow-xl border border-amber-900/20 group">
+        
         {/* Automatic Slider Backgrounds */}
         {heroSlides.map((slide, index) => (
           <div 
@@ -80,15 +84,16 @@ const Shop = () => {
             <img 
               src={slide.image} 
               alt={slide.label} 
-              className="w-full h-full object-cover object-center"
+              className="w-full h-full object-cover object-[center_right] md:object-center"
             />
           </div>
         ))}
         
-        {/* Subtle Dark Gradient Overlay */}
-        <div className="absolute inset-0 bg-[#1A2E46]/40 bg-gradient-to-t from-[#1A2E46]/90 via-[#1A2E46]/30 to-transparent pointer-events-none"></div>
+        {/* Dark Gradient Overlay tailored for Left Side text readability */}
+        <div className="absolute inset-0 bg-gradient-to-r from-[#0F172A]/90 via-[#1A2E46]/60 to-transparent pointer-events-none w-full md:w-[60%] z-10"></div>
+        <div className="absolute inset-0 bg-black/20 pointer-events-none md:hidden z-10"></div>
 
-        <div className="container mx-auto px-4 md:px-8 relative z-10 flex flex-col items-center text-center max-w-3xl space-y-4 pb-6">
+        <div className="container mx-auto px-10 md:px-14 relative z-10 flex flex-col items-start text-left max-w-2xl space-y-4 pb-6">
           <span className="inline-flex items-center gap-1.5 px-4 py-1.5 bg-[#F8E7CD]/20 text-[#F8E7CD] rounded-full font-black text-xs uppercase tracking-[0.2em] border border-[#F8E7CD]/30 shadow-sm backdrop-blur-md">
             <Sparkles className="w-3.5 h-3.5 text-amber-400" />
             Pure & Natural Selection
@@ -101,10 +106,26 @@ const Shop = () => {
             Shop Our Premium Oils
           </h1>
 
-          <p className="text-slate-200 text-sm md:text-base font-semibold max-w-xl mx-auto leading-relaxed">
+          <p className="text-slate-200 text-sm md:text-base font-semibold max-w-xl leading-relaxed">
             Natural oils crafted for a healthier tomorrow. Select your preferred size and enjoy doorstep delivery across India.
           </p>
         </div>
+
+        {/* Carousel Navigation Arrows */}
+        <button 
+          onClick={() => setCurrentSlide((prev) => (prev === 0 ? heroSlides.length - 1 : prev - 1))}
+          className="absolute left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 flex items-center justify-center bg-black/30 hover:bg-black/50 backdrop-blur-sm text-white rounded-full transition-all opacity-0 group-hover:opacity-100 focus:opacity-100"
+          aria-label="Previous slide"
+        >
+          <ChevronLeft className="w-6 h-6" />
+        </button>
+        <button 
+          onClick={() => setCurrentSlide((prev) => (prev + 1) % heroSlides.length)}
+          className="absolute right-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 flex items-center justify-center bg-black/30 hover:bg-black/50 backdrop-blur-sm text-white rounded-full transition-all opacity-0 group-hover:opacity-100 focus:opacity-100"
+          aria-label="Next slide"
+        >
+          <ChevronRight className="w-6 h-6" />
+        </button>
 
         {/* Slider Indicators */}
         <div className="absolute bottom-6 left-0 right-0 flex justify-center items-center gap-3 z-20">

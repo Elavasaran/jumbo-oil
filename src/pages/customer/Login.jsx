@@ -40,26 +40,31 @@ const Login = () => {
       <div className="container mx-auto px-4 md:px-6 py-12">
         <div className="max-w-4xl mx-auto bg-white rounded-3xl shadow-xl overflow-hidden border border-slate-200 grid grid-cols-1 md:grid-cols-12">
           {/* Left Split: Premium Oil Visual */}
-          <div className="md:col-span-5 relative bg-gradient-to-br from-brand-navy via-amber-950 to-brand-navy p-8 text-white flex flex-col justify-between min-h-[350px]">
-            <div className="absolute inset-0 opacity-20 pointer-events-none">
-              <img 
-                src="https://images.unsplash.com/photo-1620706857370-e1b9770e8bb1?auto=format&fit=crop&q=80&w=800" 
-                alt="Oil background" 
-                className="w-full h-full object-cover"
-              />
-            </div>
+          <div className="md:col-span-5 relative p-8 text-white flex flex-col justify-between min-h-[350px] overflow-hidden">
+            {/* Background Image */}
+            <div 
+              className="absolute inset-0 z-0"
+              style={{
+                backgroundImage: `url('/images/login-bg.jpg')`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center'
+              }}
+            ></div>
             
-            <div className="relative z-10">
+            {/* Subtle Gradient Overlay for Text Readability */}
+            <div className="absolute inset-0 z-10 bg-gradient-to-b from-black/60 via-black/20 to-black/70 pointer-events-none"></div>
+            
+            <div className="relative z-20">
               <div className="w-10 h-10 bg-amber-600 rounded-full flex items-center justify-center font-black text-xl mb-4 shadow-md">
                 JT
               </div>
-              <h2 className="text-2xl font-black text-white">Welcome Back to Jumbo Trades</h2>
-              <p className="text-slate-300 text-xs mt-2 leading-relaxed">
+              <h2 className="text-2xl font-black text-white drop-shadow-md">Welcome Back to Jumbo Trades</h2>
+              <p className="text-slate-200 text-xs mt-2 leading-relaxed drop-shadow-md font-medium">
                 Access your orders, track shipments, and reorder pure edible oils easily.
               </p>
             </div>
 
-            <div className="relative z-10 pt-8 border-t border-white/10 text-xs text-amber-200">
+            <div className="relative z-20 pt-8 border-t border-white/20 text-xs text-amber-200 drop-shadow-md font-medium">
               <span>Pure Taste • Trusted Quality • Fast Delivery</span>
             </div>
           </div>

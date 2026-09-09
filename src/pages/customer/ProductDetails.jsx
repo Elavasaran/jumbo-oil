@@ -1,15 +1,18 @@
 import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { ShoppingCart, Star, CheckCircle2, ShieldCheck, Leaf, Award, ArrowLeft, Plus, Minus, Info, Package, Sparkles } from 'lucide-react';
+import { ShoppingCart, Star, CheckCircle2, ShieldCheck, Leaf, Award, ArrowRight, Plus, Minus, Info, Package, Sparkles, Zap, Truck, CreditCard, Banknote } from 'lucide-react';
 import { products } from '../../data/products';
 import { useCart } from '../../context/CartContext';
 import { useToast } from '../../context/ToastContext';
+import { useNavigate } from 'react-router-dom';
 import ProductCard from '../../components/customer/ProductCard';
+import { calculateEstimatedDelivery, getDeliveryTimeWindow } from '../../utils/delivery';
 
 const ProductDetails = () => {
   const { id } = useParams();
-  const { addToCart } = useCart();
+  const { addToCart, buyNow } = useCart();
   const { showToast } = useToast();
+  const navigate = useNavigate();
 
   // Find product by id or slug
   const product = products.find(p => p.id === id || p.slug === id) || products[0];
@@ -21,9 +24,24 @@ const ProductDetails = () => {
 
   const gallery = product.galleryImages || [product.image];
 
+  const isOutOfStock = selectedVariant.stock === 0 || selectedVariant.status?.toLowerCase() === 'out of stock';
+
   const handleAddToCart = () => {
+    if (isOutOfStock) {
+      showToast(`Sorry, ${product.name} (${selectedVariant.size}) is out of stock.`, 'error');
+      return;
+    }
     addToCart(product, selectedVariant, quantity);
     showToast(`Added ${product.name} (${selectedVariant.size}) x${quantity} to cart!`, 'cart');
+  };
+
+  const handleBuyNow = () => {
+    if (isOutOfStock) {
+      showToast(`Sorry, ${product.name} (${selectedVariant.size}) is out of stock.`, 'error');
+      return;
+    }
+    buyNow(product, selectedVariant, quantity);
+    navigate('/checkout');
   };
 
   const otherProducts = products.filter(p => p.id !== product.id);
@@ -151,11 +169,64 @@ const ProductDetails = () => {
                   <button
                     type="button"
                     onClick={handleAddToCart}
-                    className="h-14 flex-1 bg-brand-navy hover:bg-amber-800 text-white rounded-xl font-black text-sm shadow-[0_8px_30px_rgb(0,0,0,0.12)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.2)] transition-all flex items-center justify-center gap-2"
+                    disabled={isOutOfStock}
+                    className={`h-14 flex-1 rounded-xl font-black text-sm transition-all flex items-center justify-center gap-2 ${
+                      isOutOfStock ? 'bg-slate-200 text-slate-400 cursor-not-allowed shadow-none' :
+                      'bg-white border-2 border-brand-navy text-brand-navy hover:bg-slate-50 shadow-sm'
+                    }`}
                   >
                     <ShoppingCart className="w-5 h-5" />
-                    <span>Add to Cart</span>
+                    <span className="hidden sm:inline">Add to Cart</span>
+                    <span className="sm:hidden">Add</span>
                   </button>
+
+                  {/* Buy Now button */}
+                  <button
+                    type="button"
+                    onClick={handleBuyNow}
+                    disabled={isOutOfStock}
+                    className={`h-14 flex-1 rounded-xl font-black text-sm transition-all flex items-center justify-center gap-2 ${
+                      isOutOfStock ? 'bg-slate-300 text-slate-500 cursor-not-allowed shadow-none' :
+                      'bg-amber-700 hover:bg-amber-800 text-white shadow-lg hover:shadow-xl'
+                    }`}
+                  >
+                    <Zap className="w-5 h-5" />
+                    <span>Buy Now</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Delivery Information Section */}
+              <div className="p-6 bg-white rounded-3xl border border-slate-200/80 space-y-4 shadow-sm">
+                <h3 className="font-bold text-slate-900 flex items-center gap-2 border-b border-slate-100 pb-2">
+                  <Truck className="w-5 h-5 text-amber-700" />
+                  Delivery Information
+                </h3>
+                
+                <div className="space-y-3 text-sm text-slate-700">
+                  <div className="flex justify-between items-center">
+                    <span className="text-slate-500 font-semibold">Estimated Delivery</span>
+                    <span className="font-bold text-slate-900">{calculateEstimatedDelivery()}</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-slate-500 font-semibold">Delivery Time</span>
+                    <span className="font-bold text-slate-900">{getDeliveryTimeWindow()}</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-slate-500 font-semibold">Delivery Charge</span>
+                    <span className="font-bold text-emerald-600">FREE over ₹999</span>
+                  </div>
+                </div>
+
+                <div className="pt-2 border-t border-slate-100 flex items-center justify-between gap-4 text-xs font-semibold">
+                  <div className="flex items-center gap-1.5 text-slate-600">
+                    <Banknote className="w-4 h-4 text-emerald-600" />
+                    <span>COD Available</span>
+                  </div>
+                  <div className="flex items-center gap-1.5 text-slate-600">
+                    <CreditCard className="w-4 h-4 text-amber-600" />
+                    <span>Online Payment</span>
+                  </div>
                 </div>
               </div>
 

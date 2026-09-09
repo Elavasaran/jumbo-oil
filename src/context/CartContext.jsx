@@ -51,6 +51,29 @@ export const CartProvider = ({ children }) => {
     return cartItems.reduce((total, item) => total + (item.variant.price * item.quantity), 0);
   };
 
+  const buyNow = (product, variant, quantity) => {
+    const buyNowItem = {
+      productId: product.id,
+      variantId: variant.id,
+      productName: product.name,
+      variant,
+      price: variant.price,
+      quantity,
+      image: product.image,
+      product: product // Keep full product reference just in case
+    };
+    sessionStorage.setItem('jumboTrades_buyNow', JSON.stringify(buyNowItem));
+  };
+
+  const getBuyNowItem = () => {
+    const item = sessionStorage.getItem('jumboTrades_buyNow');
+    return item ? JSON.parse(item) : null;
+  };
+
+  const clearBuyNow = () => {
+    sessionStorage.removeItem('jumboTrades_buyNow');
+  };
+
   return (
     <CartContext.Provider value={{
       cartItems,
@@ -59,7 +82,10 @@ export const CartProvider = ({ children }) => {
       updateQuantity,
       clearCart,
       getSubtotal,
-      cartCount: cartItems.reduce((acc, item) => acc + item.quantity, 0)
+      cartCount: cartItems.reduce((acc, item) => acc + item.quantity, 0),
+      buyNow,
+      getBuyNowItem,
+      clearBuyNow
     }}>
       {children}
     </CartContext.Provider>

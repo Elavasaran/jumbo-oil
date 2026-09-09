@@ -82,12 +82,42 @@ export const MockDataProvider = ({ children }) => {
   };
 
   // Order Actions
+  const addOrder = (order) => {
+    updateData('orders', prev => [order, ...prev]);
+  };
+
   const updateOrderStatus = (orderId, newStatus) => {
     updateData('orders', prev => prev.map(o => o.id === orderId ? { ...o, status: newStatus } : o));
   };
 
   const updatePaymentStatus = (orderId, newStatus) => {
     updateData('orders', prev => prev.map(o => o.id === orderId ? { ...o, paymentStatus: newStatus } : o));
+  };
+
+  // Inventory Action
+  const reduceInventory = (items) => {
+    updateData('products', prev => {
+      let updatedProducts = [...prev];
+      
+      items.forEach(item => {
+        updatedProducts = updatedProducts.map(p => {
+          if (p.id === item.productId || p.id === item.product?.id) {
+            return {
+              ...p,
+              variants: p.variants.map(v => {
+                if (v.id === item.variantId || v.id === item.variant?.id) {
+                  return { ...v, stock: Math.max(0, (v.stock || 100) - item.quantity) };
+                }
+                return v;
+              })
+            };
+          }
+          return p;
+        });
+      });
+      
+      return updatedProducts;
+    });
   };
 
   // Review & Enquiry Actions
@@ -115,6 +145,8 @@ export const MockDataProvider = ({ children }) => {
       deleteProduct,
       updateVariant,
       deleteVariant,
+      addOrder,
+      reduceInventory,
       updateOrderStatus,
       updatePaymentStatus,
       updateReviewStatus,

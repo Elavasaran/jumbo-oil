@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ShoppingCart, Star, Plus, Minus, ArrowRight, Check } from 'lucide-react';
+import { ShoppingCart, Star, Plus, Minus, ArrowRight, Check, Zap } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
 import { useToast } from '../../context/ToastContext';
+import { useNavigate } from 'react-router-dom';
 
 const ProductCard = ({ product }) => {
-  const { addToCart } = useCart();
+  const { addToCart, buyNow } = useCart();
   const { showToast } = useToast();
+  const navigate = useNavigate();
   
   // Default to 1L variant or first variant
   const defaultVarIndex = product.variants.findIndex(v => v.size === '1 L') !== -1 
@@ -33,14 +35,35 @@ const ProductCard = ({ product }) => {
     setQuantity(prev => Math.max(1, prev - 1));
   };
 
+  const isOutOfStock = selectedVariant.stock === 0 || selectedVariant.status?.toLowerCase() === 'out of stock';
+
   const handleAddToCart = (e) => {
     e.preventDefault();
     e.stopPropagation();
+    
+    if (isOutOfStock) {
+      showToast(`Sorry, ${product.name} (${selectedVariant.size}) is currently out of stock.`, 'error');
+      return;
+    }
+    
     addToCart(product, selectedVariant, quantity);
     showToast(`Added Jumbo Trades ${product.name} (${selectedVariant.size}) x${quantity} to cart!`, 'cart');
     
     setAddedAnimation(true);
     setTimeout(() => setAddedAnimation(false), 1500);
+  };
+
+  const handleBuyNow = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (isOutOfStock) {
+      showToast(`Sorry, ${product.name} (${selectedVariant.size}) is currently out of stock.`, 'error');
+      return;
+    }
+
+    buyNow(product, selectedVariant, quantity);
+    navigate('/checkout');
   };
 
   return (
@@ -161,22 +184,16 @@ const ProductCard = ({ product }) => {
           </div>
 
           {/* Action Buttons Row */}
-          <div className="flex items-center gap-2 pt-1">
-            <Link
-              to={`/product-information/${product.slug || product.id}`}
-              className="flex-1 bg-amber-50 hover:bg-amber-100 text-[#1A2E46] py-3 rounded-xl font-extrabold text-xs border border-amber-200 transition-all flex items-center justify-center gap-1.5 shadow-sm"
-            >
-              <span>View</span>
-              <ArrowRight className="w-3.5 h-3.5 text-[#EA660C]" />
-            </Link>
-
+          <div className="flex items-center gap-2 pt-2">
             <button
               type="button"
               onClick={handleAddToCart}
+              disabled={isOutOfStock}
               className={`flex-1 py-3 rounded-xl font-extrabold text-xs shadow-md transition-all duration-300 flex items-center justify-center gap-2 ${
+                isOutOfStock ? 'bg-slate-200 text-slate-400 cursor-not-allowed shadow-none' :
                 addedAnimation 
                   ? 'bg-emerald-700 text-white shadow-emerald-700/30'
-                  : 'bg-[#EA660C] hover:bg-[#c95305] text-white shadow-[0_4px_14px_rgba(234,102,12,0.35)] hover:-translate-y-0.5'
+                  : 'bg-white border border-[#1A2E46] text-[#1A2E46] hover:bg-slate-50'
               }`}
             >
               {addedAnimation ? (
@@ -191,7 +208,26 @@ const ProductCard = ({ product }) => {
                 </>
               )}
             </button>
+
+            <button
+              type="button"
+              onClick={handleBuyNow}
+              disabled={isOutOfStock}
+              className={`flex-1 py-3 rounded-xl font-extrabold text-xs shadow-md transition-all duration-300 flex items-center justify-center gap-2 ${
+                isOutOfStock ? 'bg-slate-300 text-slate-500 cursor-not-allowed shadow-none' :
+                'bg-[#EA660C] hover:bg-[#c95305] text-white shadow-[0_4px_14px_rgba(234,102,12,0.35)] hover:-translate-y-0.5'
+              }`}
+            >
+              <Zap className="w-4 h-4" />
+              <span>Buy Now</span>
+            </button>
           </div>
+          <Link
+            to={`/product-information/${product.slug || product.id}`}
+            className="text-center text-[11px] font-bold text-slate-500 hover:text-[#EA660C] underline mt-1"
+          >
+            View Full Details
+          </Link>
         </div>
       </div>
     </div>

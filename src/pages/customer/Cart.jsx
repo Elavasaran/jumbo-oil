@@ -1,16 +1,27 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Trash2, ShoppingBag, ArrowRight, ShieldCheck, Truck, Plus, Minus } from 'lucide-react';
+import { Trash2, ShoppingBag, ArrowRight, ShieldCheck, Truck, Plus, Minus, AlertCircle } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
+import { useToast } from '../../context/ToastContext';
 
 const Cart = () => {
   const { cartItems, removeFromCart, updateQuantity, clearCart, getSubtotal } = useCart();
+  const { showToast } = useToast();
   const navigate = useNavigate();
 
   const subtotal = getSubtotal();
   const shipping = subtotal > 999 || subtotal === 0 ? 0 : 50;
   const tax = Math.round(subtotal * 0.05); // 5% GST placeholder
   const total = subtotal + shipping + tax;
+
+  const handleUpdateQuantity = (item, newQuantity) => {
+    if (newQuantity < 1) return;
+    if (newQuantity > (item.variant.stock ?? 100)) {
+      showToast(`Sorry, only ${item.variant.stock ?? 100} units available for ${item.product.name} (${item.variant.size}).`, 'error');
+      return;
+    }
+    updateQuantity(item.variant.id, newQuantity);
+  };
 
   if (cartItems.length === 0) {
     return (
@@ -77,7 +88,7 @@ const Cart = () => {
                   <div className="flex items-center border border-slate-200 rounded-lg bg-slate-50 overflow-hidden">
                     <button 
                       type="button"
-                      onClick={() => updateQuantity(item.variant.id, item.quantity - 1)}
+                      onClick={() => handleUpdateQuantity(item, item.quantity - 1)}
                       className="px-2.5 py-1.5 text-slate-600 hover:bg-slate-200"
                     >
                       <Minus className="w-3.5 h-3.5" />
@@ -85,7 +96,7 @@ const Cart = () => {
                     <span className="w-8 text-center text-xs font-bold text-slate-800">{item.quantity}</span>
                     <button 
                       type="button"
-                      onClick={() => updateQuantity(item.variant.id, item.quantity + 1)}
+                      onClick={() => handleUpdateQuantity(item, item.quantity + 1)}
                       className="px-2.5 py-1.5 text-slate-600 hover:bg-slate-200"
                     >
                       <Plus className="w-3.5 h-3.5" />

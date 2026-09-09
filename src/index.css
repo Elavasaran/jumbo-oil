@@ -1,6 +1,7 @@
 @import "tailwindcss";
 
 @theme {
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --color-brand-navy: #0F172A;
   --color-brand-gold: #D97706;
   --color-brand-gold-light: #F59E0B;
@@ -9,26 +10,11 @@
   --color-brand-text: #1E293B;
 }
 
-@layer base {
-  body {
-    @apply text-brand-text bg-white antialiased;
-  }
-}
-
-@layer utilities {
-  .animate-fade-in-up {
-    animation: fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-    opacity: 0;
-  }
-  
-  .animate-zoom-in {
-    animation: zoomIn 1.2s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
-  }
-  
-  .delay-100 { animation-delay: 100ms; }
-  .delay-200 { animation-delay: 200ms; }
-  .delay-300 { animation-delay: 300ms; }
-  .delay-400 { animation-delay: 400ms; }
+body {
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: #1E293B;
+  background-color: #ffffff;
+  -webkit-font-smoothing: antialiased;
 }
 
 @keyframes fadeInUp {

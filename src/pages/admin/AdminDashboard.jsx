@@ -3,20 +3,20 @@ import { ShoppingBag, Users, DollarSign, Package, TrendingUp, AlertTriangle, Arr
 import { useMockData } from '../../context/MockDataContext';
 import { Link, useNavigate } from 'react-router-dom';
 
-const StatCard = ({ title, value, icon: Icon, trend, colorClass }) => (
-  <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm flex items-center justify-between">
+const StatCard = ({ title, value, icon: Icon, trend, colorGradient, iconBg, shadowColor }) => (
+  <div className={`rounded-2xl p-6 border border-white/40 shadow-lg ${shadowColor} ${colorGradient} text-white flex items-center justify-between transition-all duration-300 hover:scale-[1.02]`}>
     <div>
-      <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">{title}</p>
-      <h3 className="text-2xl font-black text-slate-900">{value}</h3>
+      <p className="text-xs font-black uppercase tracking-wider mb-1 text-white/80">{title}</p>
+      <h3 className="text-3xl font-black tracking-tight">{value}</h3>
       {trend !== undefined && (
-        <p className={`text-xs mt-2 flex items-center gap-1 font-bold ${trend >= 0 ? 'text-emerald-600' : 'text-rose-600'}`}>
+        <p className="text-xs mt-2 flex items-center gap-1 font-extrabold bg-white/20 backdrop-blur-md px-2.5 py-1 rounded-lg w-fit text-white">
           <TrendingUp className={`w-3.5 h-3.5 ${trend < 0 && 'rotate-180'}`} />
           <span>{Math.abs(trend)}% from last month</span>
         </p>
       )}
     </div>
-    <div className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 ${colorClass}`}>
-      <Icon className="w-6 h-6" />
+    <div className={`w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 shadow-md ${iconBg}`}>
+      <Icon className="w-7 h-7 text-white" />
     </div>
   </div>
 );
@@ -49,8 +49,8 @@ const AdminDashboard = () => {
     <div className="space-y-6 md:space-y-8 max-w-7xl mx-auto">
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
         <div>
-          <h1 className="text-2xl font-black text-slate-900">Dashboard</h1>
-          <p className="text-xs text-slate-500 mt-1">Welcome to Jumbo Trades E-Commerce Admin Console.</p>
+          <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Dashboard</h1>
+          <p className="text-xs text-slate-500 mt-1">Welcome to Jumbo Trades E-Commerce Interactive Admin Console.</p>
         </div>
         <div className="text-xs font-bold text-slate-600 bg-white px-4 py-2.5 rounded-xl border border-slate-200 shadow-sm self-start sm:self-auto">
           Today: {new Date().toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })}
@@ -64,28 +64,36 @@ const AdminDashboard = () => {
           value={totalProducts} 
           icon={Package} 
           trend={0}
-          colorClass="bg-blue-100 text-blue-700"
+          colorGradient="bg-gradient-to-br from-blue-600 to-indigo-700"
+          iconBg="bg-white/20 backdrop-blur-sm"
+          shadowColor="shadow-blue-500/20"
         />
         <StatCard 
           title="Total Orders" 
           value={totalOrders} 
           icon={ShoppingBag} 
           trend={14.2}
-          colorClass="bg-emerald-100 text-emerald-700"
+          colorGradient="bg-gradient-to-br from-emerald-500 to-teal-700"
+          iconBg="bg-white/20 backdrop-blur-sm"
+          shadowColor="shadow-emerald-500/20"
         />
         <StatCard 
           title="Total Customers" 
           value={totalCustomers} 
           icon={Users} 
           trend={9.5}
-          colorClass="bg-purple-100 text-purple-700"
+          colorGradient="bg-gradient-to-br from-purple-600 to-violet-800"
+          iconBg="bg-white/20 backdrop-blur-sm"
+          shadowColor="shadow-purple-500/20"
         />
         <StatCard 
           title="Total Sales" 
           value={`₹${totalSales.toLocaleString()}`} 
           icon={DollarSign} 
           trend={18.6}
-          colorClass="bg-amber-100 text-amber-800"
+          colorGradient="bg-gradient-to-br from-amber-500 via-orange-500 to-amber-600"
+          iconBg="bg-white/20 backdrop-blur-sm"
+          shadowColor="shadow-amber-500/25"
         />
       </div>
 

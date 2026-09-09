@@ -25,7 +25,8 @@ const AdminLayout = () => {
 
   return (
     <div className="flex h-screen bg-gray-50 overflow-hidden relative">
-      <AdminSidebar isOpen={isSidebarOpen} onClose={closeSidebar} />
+      <AdminSidebar isOpen={isSidebarOpen} onClose={closeSidebar} onToggleCollapse={toggleSidebar} />
+
       
       {/* Mobile overlay */}
       {isSidebarOpen && (

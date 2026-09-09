@@ -7,20 +7,31 @@ import { useToast } from '../../context/ToastContext';
 const Login = () => {
   const [email, setEmail] = useState('rahul.sharma@example.com');
   const [password, setPassword] = useState('password123');
-  const { loginCustomer, loginAdmin } = useAuth();
+  const { login } = useAuth();
   const { showToast } = useToast();
   const navigate = useNavigate();
+  const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (email.toLowerCase().includes('admin')) {
-      loginAdmin(email, password);
-      showToast("Logged in as Admin!", "success");
-      navigate('/admin');
+    setError('');
+    setIsLoading(true);
+    
+    const result = await login(email, password);
+    
+    setIsLoading(false);
+    
+    if (result.success) {
+      if (result.role === 'admin') {
+        showToast("Logged in as Admin!", "success");
+        navigate('/admin');
+      } else {
+        showToast("Logged in successfully!", "success");
+        navigate('/account');
+      }
     } else {
-      loginCustomer(email, password);
-      showToast("Logged in successfully!", "success");
-      navigate('/account');
+      setError(result.error);
     }
   };
 
@@ -59,6 +70,12 @@ const Login = () => {
               <h3 className="text-2xl font-black text-slate-900">Sign In</h3>
               <p className="text-xs text-slate-500 mt-1">Enter your account credentials to log in.</p>
             </div>
+
+            {error && (
+              <div className="p-3 bg-rose-50 text-rose-700 text-sm font-bold rounded-xl border border-rose-200">
+                {error}
+              </div>
+            )}
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
@@ -99,10 +116,11 @@ const Login = () => {
 
               <button 
                 type="submit" 
-                className="w-full bg-brand-navy hover:bg-amber-800 text-white py-3.5 rounded-xl font-bold text-sm shadow-md transition-all flex items-center justify-center gap-2"
+                disabled={isLoading}
+                className={`w-full bg-brand-navy hover:bg-amber-800 text-white py-3.5 rounded-xl font-bold text-sm shadow-md transition-all flex items-center justify-center gap-2 ${isLoading ? 'opacity-70 cursor-not-allowed' : ''}`}
               >
-                <span>Sign In</span>
-                <ArrowRight className="w-4 h-4" />
+                <span>{isLoading ? 'Signing in...' : 'Sign In'}</span>
+                {!isLoading && <ArrowRight className="w-4 h-4" />}
               </button>
             </form>
 
@@ -114,7 +132,8 @@ const Login = () => {
             </div>
             
             <div className="mt-4 p-3 bg-blue-50/50 rounded-xl border border-blue-100 text-[11px] text-blue-800 text-center">
-              <strong>Admin Access:</strong> Enter <strong>admin@jumbotrades.demo</strong> to be automatically redirected to the Admin Dashboard.
+              <strong>Admin Access:</strong> Email: <strong>admin@jumbotrades.demo</strong> Password: <strong>admin</strong><br/>
+              <strong>Customer Access:</strong> Email: <strong>rahul.sharma@example.com</strong> Password: <strong>password123</strong>
             </div>
           </div>
         </div>

@@ -17,7 +17,6 @@ import Register from './pages/customer/Register';
 import CustomerDashboard from './pages/customer/CustomerDashboard';
 import Contact from './pages/customer/Contact';
 
-import AdminLogin from './pages/admin/AdminLogin';
 import AdminDashboard from './pages/admin/AdminDashboard';
 
 import AdminProducts from './pages/admin/AdminProducts';
@@ -51,9 +50,6 @@ function App() {
           <Route path="account/*" element={<CustomerDashboard />} />
           <Route path="contact" element={<Contact />} />
         </Route>
-
-        {/* Admin Login Route (No Layout) */}
-        <Route path="/admin-login" element={<AdminLogin />} />
 
         {/* Admin Routes */}
         <Route 

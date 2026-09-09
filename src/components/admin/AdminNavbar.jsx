@@ -10,7 +10,7 @@ const AdminNavbar = ({ onToggleSidebar }) => {
 
   const handleLogout = () => {
     logout();
-    navigate('/admin-login');
+    navigate('/login');
   };
 
   return (
@@ -48,7 +48,7 @@ const AdminNavbar = ({ onToggleSidebar }) => {
             </div>
             <div className="hidden md:block">
               <p className="text-sm font-bold text-slate-800 leading-tight">{user?.name || 'Administrator'}</p>
-              <p className="text-[11px] text-amber-600 font-semibold">Super Admin</p>
+              <p className="text-[11px] text-amber-600 font-semibold capitalize">{user?.role || 'Admin'}</p>
             </div>
             <ChevronDown className="w-4 h-4 text-slate-400 hidden md:block" />
           </button>
@@ -62,7 +62,7 @@ const AdminNavbar = ({ onToggleSidebar }) => {
               <div className="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg border border-slate-100 z-50 overflow-hidden py-1">
                 <div className="px-4 py-2 border-b border-slate-100 mb-1 md:hidden">
                   <p className="text-sm font-bold text-slate-800">{user?.name || 'Administrator'}</p>
-                  <p className="text-[11px] text-slate-500">Super Admin</p>
+                  <p className="text-[11px] text-slate-500 capitalize">{user?.role || 'Admin'}</p>
                 </div>
                 <Link 
                   to="/admin/settings" 

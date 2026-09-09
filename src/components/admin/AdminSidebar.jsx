@@ -11,7 +11,7 @@ const AdminSidebar = ({ isOpen, onClose }) => {
 
   const handleLogout = () => {
     logout();
-    navigate('/admin-login');
+    navigate('/login');
   };
 
   const menuItems = [

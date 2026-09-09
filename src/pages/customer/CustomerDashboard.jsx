@@ -1,13 +1,29 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Navigate } from 'react-router-dom';
 import { User, Package, MapPin, CreditCard, LogOut, LayoutDashboard, CheckCircle2, Clock, Eye } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
 const CustomerDashboard = () => {
-  const { user, logout } = useAuth();
+  const { user, isAuthenticated, loading, logout } = useAuth();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('orders');
   const [selectedOrder, setSelectedOrder] = useState(null);
+
+  if (loading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-slate-50 pt-20">
+        <div className="animate-spin rounded-full h-12 w-12 border-4 border-brand-navy border-t-transparent"></div>
+      </div>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
+  }
+
+  if (user?.role === 'admin') {
+    return <Navigate to="/admin" replace />;
+  }
 
   // Load orders from localStorage or default mock orders
   const savedOrders = JSON.parse(localStorage.getItem('jumbo-orders') || '[]');

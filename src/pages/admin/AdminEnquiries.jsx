@@ -8,11 +8,14 @@ const AdminEnquiries = () => {
   const [statusFilter, setStatusFilter] = useState('All');
   const [selectedEnquiry, setSelectedEnquiry] = useState(null);
 
+  const [typeFilter, setTypeFilter] = useState('All');
+
   const filteredEnquiries = enquiries.filter(e => {
-    const matchesSearch = e.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                          e.email.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesSearch = (e.customerName || '').toLowerCase().includes(searchTerm.toLowerCase()) || 
+                          (e.email || '').toLowerCase().includes(searchTerm.toLowerCase());
     const matchesStatus = statusFilter === 'All' || e.status === statusFilter;
-    return matchesSearch && matchesStatus;
+    const matchesType = typeFilter === 'All' || e.type === typeFilter;
+    return matchesSearch && matchesStatus && matchesType;
   }).sort((a, b) => new Date(b.date) - new Date(a.date));
 
   return (
@@ -37,6 +40,18 @@ const AdminEnquiries = () => {
             />
           </div>
           <select 
+            value={typeFilter}
+            onChange={(e) => setTypeFilter(e.target.value)}
+            className="w-full sm:w-48 p-2 bg-white border border-slate-200 rounded-xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-brand-navy/20 focus:border-brand-navy transition-all outline-none"
+          >
+            <option value="All">All Types</option>
+            <option value="Product Enquiry">Product Enquiry</option>
+            <option value="Bulk Order">Bulk Order</option>
+            <option value="Dealership">Dealership</option>
+            <option value="General Query">General Query</option>
+            <option value="Feedback">Feedback</option>
+          </select>
+          <select 
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
             className="w-full sm:w-48 p-2 bg-white border border-slate-200 rounded-xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-brand-navy/20 focus:border-brand-navy transition-all outline-none"
@@ -45,6 +60,7 @@ const AdminEnquiries = () => {
             <option value="New">New</option>
             <option value="Read">Read</option>
             <option value="Replied">Replied</option>
+            <option value="Archived">Archived</option>
           </select>
         </div>
 
@@ -54,6 +70,7 @@ const AdminEnquiries = () => {
               <tr>
                 <th className="px-4 py-3 md:px-6">Name</th>
                 <th className="px-4 py-3 md:px-6">Contact Info</th>
+                <th className="px-4 py-3 md:px-6">Type</th>
                 <th className="px-4 py-3 md:px-6">Message Snippet</th>
                 <th className="px-4 py-3 md:px-6">Date</th>
                 <th className="px-4 py-3 md:px-6">Status</th>
@@ -63,10 +80,13 @@ const AdminEnquiries = () => {
             <tbody className="divide-y divide-slate-100 font-medium">
               {filteredEnquiries.map(enquiry => (
                 <tr key={enquiry.id} className={`hover:bg-slate-50/80 transition-colors ${enquiry.status === 'New' ? 'bg-blue-50/30 font-bold' : ''}`}>
-                  <td className="px-4 py-3.5 md:px-6 text-slate-900">{enquiry.name}</td>
+                  <td className="px-4 py-3.5 md:px-6 text-slate-900">{enquiry.customerName}</td>
                   <td className="px-4 py-3.5 md:px-6 text-slate-600">
                     <div className="text-xs">{enquiry.email}</div>
                     <div className="text-[10px] text-slate-400 font-mono mt-0.5">{enquiry.phone}</div>
+                  </td>
+                  <td className="px-4 py-3.5 md:px-6 text-slate-500 text-xs font-medium">
+                    {enquiry.type || 'General Query'}
                   </td>
                   <td className="px-4 py-3.5 md:px-6 text-slate-500 max-w-[200px] truncate" title={enquiry.message}>
                     {enquiry.message}
@@ -79,12 +99,14 @@ const AdminEnquiries = () => {
                       className={`px-2.5 py-1 rounded-md text-[10px] font-bold border outline-none cursor-pointer ${
                         enquiry.status === 'New' ? 'bg-blue-100 text-blue-800 border-blue-200' :
                         enquiry.status === 'Replied' ? 'bg-emerald-100 text-emerald-800 border-emerald-200' :
+                        enquiry.status === 'Archived' ? 'bg-slate-200 text-slate-500 border-slate-300' :
                         'bg-slate-100 text-slate-700 border-slate-200'
                       }`}
                     >
                       <option value="New">New</option>
                       <option value="Read">Read</option>
                       <option value="Replied">Replied</option>
+                      <option value="Archived">Archived</option>
                     </select>
                   </td>
                   <td className="px-4 py-3.5 md:px-6 text-right">
@@ -105,7 +127,7 @@ const AdminEnquiries = () => {
               ))}
               {filteredEnquiries.length === 0 && (
                 <tr>
-                  <td colSpan="6" className="px-6 py-12 text-center">
+                  <td colSpan="7" className="px-6 py-12 text-center">
                     <div className="flex flex-col items-center justify-center text-slate-500">
                       <AlertCircle className="w-8 h-8 text-slate-300 mb-3" />
                       <p className="text-sm font-bold text-slate-700">No enquiries found</p>
@@ -124,8 +146,11 @@ const AdminEnquiries = () => {
           <div className="bg-white rounded-2xl shadow-xl w-full max-w-lg p-6 animate-in fade-in zoom-in-95 duration-200">
             <div className="flex justify-between items-start mb-6">
               <div>
-                <h3 className="font-black text-lg text-slate-900">Message from {selectedEnquiry.name}</h3>
+                <h3 className="font-black text-lg text-slate-900">Message from {selectedEnquiry.customerName}</h3>
                 <p className="text-xs text-slate-500 mt-1">{new Date(selectedEnquiry.date).toLocaleString()}</p>
+                <span className="inline-block mt-2 px-2 py-1 bg-amber-100 text-amber-800 text-[10px] font-bold rounded-md">
+                  {selectedEnquiry.type || 'General Query'}
+                </span>
               </div>
               <button onClick={() => setSelectedEnquiry(null)} className="text-slate-400 hover:text-rose-500">
                 <X className="w-5 h-5" />
@@ -154,6 +179,15 @@ const AdminEnquiries = () => {
 
             <div className="flex gap-3 justify-end pt-4 border-t border-slate-100">
               <button 
+                onClick={() => {
+                  updateEnquiryStatus(selectedEnquiry.id, 'Archived');
+                  setSelectedEnquiry(null);
+                }}
+                className="px-4 py-2 border border-slate-200 text-slate-600 rounded-lg text-sm font-bold hover:bg-slate-100 transition-colors mr-auto"
+              >
+                Archive
+              </button>
+              <button 
                 onClick={() => setSelectedEnquiry(null)}
                 className="px-4 py-2 border border-slate-200 text-slate-600 rounded-lg text-sm font-bold hover:bg-slate-50 transition-colors"
               >
@@ -164,7 +198,7 @@ const AdminEnquiries = () => {
                 onClick={() => updateEnquiryStatus(selectedEnquiry.id, 'Replied')}
                 className="px-4 py-2 bg-brand-navy text-white rounded-lg text-sm font-bold hover:bg-brand-navy/90 transition-colors flex items-center gap-2"
               >
-                <Mail className="w-4 h-4" /> Reply via Email
+                <Mail className="w-4 h-4" /> Reply
               </a>
             </div>
           </div>

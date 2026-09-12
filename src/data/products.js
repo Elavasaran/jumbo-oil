@@ -1,7 +1,6 @@
 import coconutOilImg from '../assets/coconut_oil.jpg';
 import groundnutOilImg from '../assets/groundnut_oil.jpg';
 import gingellyOilImg from '../assets/gingelly_oil.jpg';
-import jumboOilsImg from '../assets/jumbo_trades_oils.jpg';
 
 export const products = [
   {
@@ -11,8 +10,7 @@ export const products = [
     description: "100% pure and natural cold-pressed coconut oil extracted from hand-picked fresh coconuts. Retains natural aroma, rich nutrients, and authentic taste for delicious everyday cooking.",
     image: coconutOilImg,
     galleryImages: [
-      coconutOilImg,
-      jumboOilsImg
+      coconutOilImg
     ],
     category: "Edible Oil",
     tagline: "Cold Pressed • 100% Pure • Traditional Aroma",
@@ -53,8 +51,7 @@ export const products = [
     description: "100% pure and natural cold-pressed groundnut oil extracted from premium handpicked peanuts. Its rich nutty aroma and high smoke point preserve the authentic taste of your ingredients.",
     image: groundnutOilImg,
     galleryImages: [
-      groundnutOilImg,
-      jumboOilsImg
+      groundnutOilImg
     ],
     category: "Edible Oil",
     tagline: "Cold Pressed • 100% Pure • Rich Nutty Aroma",
@@ -95,8 +92,7 @@ export const products = [
     description: "Authentic cold-pressed sesame oil extracted using traditional wooden chekku methods with natural jaggery. Renowned for its rich nutty aroma, warm flavor, and rich antioxidant profile.",
     image: gingellyOilImg,
     galleryImages: [
-      gingellyOilImg,
-      jumboOilsImg
+      gingellyOilImg
     ],
     category: "Edible Oil",
     tagline: "Mara Chekku Cold Pressed • Nutty Flavor • Rich Antioxidants",

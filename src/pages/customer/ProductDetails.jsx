@@ -76,20 +76,22 @@ const ProductDetails = () => {
               </div>
 
               {/* Thumbnails */}
-              <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
-                {gallery.map((img, idx) => (
-                  <button
-                    key={idx}
-                    type="button"
-                    onClick={() => setActiveImageIndex(idx)}
-                    className={`w-24 h-24 shrink-0 rounded-2xl overflow-hidden border-2 transition-all p-2 bg-white ${
-                      activeImageIndex === idx ? 'border-brand-navy shadow-md ring-2 ring-brand-navy/10' : 'border-slate-200 hover:border-slate-300'
-                    }`}
-                  >
-                    <img src={img} alt="Thumbnail" className="w-full h-full object-contain mix-blend-multiply" />
-                  </button>
-                ))}
-              </div>
+              {gallery.length > 1 && (
+                <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
+                  {gallery.map((img, idx) => (
+                    <button
+                      key={idx}
+                      type="button"
+                      onClick={() => setActiveImageIndex(idx)}
+                      className={`w-24 h-24 shrink-0 rounded-2xl overflow-hidden border-2 transition-all p-2 bg-white ${
+                        activeImageIndex === idx ? 'border-brand-navy shadow-md ring-2 ring-brand-navy/10' : 'border-slate-200 hover:border-slate-300'
+                      }`}
+                    >
+                      <img src={img} alt="Thumbnail" className="w-full h-full object-contain mix-blend-multiply" />
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
 
             {/* Purchase Controls Right */}
